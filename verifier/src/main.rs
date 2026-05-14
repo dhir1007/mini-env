@@ -122,19 +122,30 @@ fn run_tests_isolated(workspace: &Path) -> (u32, u32) {
 }
 
 fn parse_pytest_summary(output: &str) -> (u32, u32) {
-    // pytest summary lines look like: "4 passed" or "3 passed, 1 failed" or "1 failed"
     let mut passed = 0u32;
     let mut failed = 0u32;
 
     for line in output.lines() {
         let line = line.trim();
-        // Look for lines like "4 passed" or "1 failed"
+        // Match lines like "4 passed in 0.01s" or "3 passed, 1 failed in 0.01s"
+        if !line.contains("passed") && !line.contains("failed") && !line.contains("error") {
+            continue;
+        }
         for part in line.split(',') {
             let part = part.trim();
-            if let Some(n) = part.split_whitespace().next().and_then(|s| s.parse::<u32>().ok()) {
-                if part.contains("passed") { passed = n; }
-                if part.contains("failed") { failed = n; }
-                if part.contains("error") { failed += n; }
+            // strip everything after "in X.XXs"
+            let part = if let Some(idx) = part.find(" in ") {
+                &part[..idx]
+            } else {
+                part
+            };
+            let part = part.trim();
+            if let Some(n_str) = part.split_whitespace().next() {
+                if let Ok(n) = n_str.parse::<u32>() {
+                    if part.contains("passed") { passed = n; }
+                    if part.contains("failed") { failed += n; }
+                    if part.contains("error") { failed += n; }
+                }
             }
         }
     }

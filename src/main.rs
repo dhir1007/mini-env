@@ -147,7 +147,7 @@ async fn handle_verify(
     // Run verifier as a separate process — it cannot be influenced by the agent
     let output = std::process::Command::new(&state.verifier_bin)
         .arg(&entry.workspace)
-        .arg("tasks/buggy/tests") // original tests, read-only reference
+        .arg("/Users/dhirkatre/code/mini-env/tasks/buggy/tests") // original tests, read-only reference
         .output()
         .map_err(|e| {
             (
