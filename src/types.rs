@@ -40,7 +40,7 @@ pub struct StepRequest {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StepResponse {
     pub observation: String,
-    pub reward: f64,
+    pub reward: f32,
     pub done: bool,
     pub info: StepInfo,
 }
@@ -59,7 +59,7 @@ pub struct VerifyRequest {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VerifyResponse {
-    pub reward: f64,
+    pub reward: f32,
     pub correctness: f64,
     pub test_integrity: bool,
     pub tests_passed: u32,
