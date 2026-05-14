@@ -38,7 +38,7 @@ pub fn build_observation(state: &EpisodeState) -> String {
         Workspace files: {}\n\
         Steps taken: {}\n\
         available tools: read_file, write_file, list_dir, run_tests\n\
-        Tip: Start with run_tests to see what's failing."
+        Tip: Start with run_tests to see what's failing.",
         files.join(", "),
         state.steps
     )
@@ -60,7 +60,7 @@ pub fn copy_dir_recursive(src: &Path, dst: &Path) -> Result<()> {
 }
 
 fn list_workspace_files(workspace: &Path) -> Vec<String> {
-    let mut files = vec::new();
+    let mut files = Vec::new();
     collect_files(workspace, workspace, &mut files);
     files
 }

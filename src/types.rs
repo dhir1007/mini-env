@@ -71,3 +71,8 @@ pub struct VerifyResponse {
 pub struct ErrorResponse {
     pub error: String,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ResetRequest {
+    pub task: Option<String>,
+}

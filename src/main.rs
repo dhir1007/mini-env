@@ -4,7 +4,7 @@ mod types;
 
 use axum::{extract::State, http::StatusCode, response::Json, routing::post, Router};
 
-use dashMap::DashMap;
+use dashmap::DashMap;
 use std::path::PathBuf;
 use std::sync::Arc;
 use types::*;
@@ -21,7 +21,8 @@ async fn main() {
     tracing_subscriber::fmt::init();
 
     let tasks_root = PathBuf::from("tasks");
-    let verifier_bin = PathBuf::from("target/debug/verifier");
+    let verifier_bin =
+        PathBuf::from("/Users/dhirkatre/code/mini-env/verifier/target/debug/verifier");
 
     if !tasks_root.exists() {
         eprintln!("Error: tasks/ directory not found. Run from mini-env root.");
@@ -37,7 +38,7 @@ async fn main() {
     let app = Router::new()
         .route("/reset", post(handle_reset))
         .route("/step", post(handle_step))
-        .route("/verifiy", post(handle_verify))
+        .route("/verify", post(handle_verify))
         .with_state(state);
 
     let addr = "0.0.0.0:8080";
